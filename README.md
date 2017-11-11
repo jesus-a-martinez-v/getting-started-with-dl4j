@@ -1,4 +1,4 @@
-Supporting code for my blog post about Getting started with Deeplearning4j and Scala which you can find [here](http://datasmarts.net/2017/11/11/getting-started-with-deeplearning4j-and-scala/) ;)
+Supporting code for my blog post about [Getting started with Deeplearning4j and Scala](http://datasmarts.net/2017/11/11/getting-started-with-deeplearning4j-and-scala/) which you can find [here](http://datasmarts.net/2017/11/11/getting-started-with-deeplearning4j-and-scala/) ;)
 
 
 ## Build
