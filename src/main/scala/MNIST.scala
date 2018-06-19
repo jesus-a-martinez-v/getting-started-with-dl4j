@@ -12,21 +12,9 @@ import org.nd4j.linalg.activations.Activation
 import org.nd4j.linalg.lossfunctions.LossFunctions.LossFunction
 
 object MNIST extends App {
-  // Input image dimensions
-  val numberOfRows = 28
-  val numberOfColumns = 28
-
-  val numberOfOutputClasses = 10
-
-  // Hyperparameters
-  val batchSize = 128
-  val randomSeed = 42
-  val numberOfEpochs = 15
-  val regularizationRate = 0.0001
-
   // Data
-  val trainingSet = getTrainData(batchSize, randomSeed)
-  val testSet = getTestData(batchSize, randomSeed)
+  val trainingSet = getTrainData(Configuration.batchSize, Configuration.randomSeed)
+  val testSet = getTestData(Configuration.batchSize, Configuration.randomSeed)
 
   val networkConfiguration = getNerworkConfiguration
   // Actual model
@@ -36,9 +24,8 @@ object MNIST extends App {
   network.setListeners(new ScoreIterationListener(1))  // Prints scores each iteration
 
   // Train network and then evaluate performance
-  train(network, trainingSet, numberOfEpochs)
-  evaluate(network, testSet, numberOfOutputClasses)
-
+  train(network, trainingSet, Configuration.numberOfEpochs)
+  evaluate(network, testSet, Configuration.numberOfOutputClasses)
 
   private def getTrainData(batchSize: Int, seed: Int = 42) = new MnistDataSetIterator(batchSize, true, seed)
 
@@ -46,16 +33,17 @@ object MNIST extends App {
 
   private def getNerworkConfiguration: MultiLayerConfiguration = {
     // Network layers
-    val firstLayer = getHiddenLayer(numberOfColumns * numberOfRows, 1000)
-    val outputLayer = getOutputLayer(1000, numberOfOutputClasses)
+    val firstLayer = getHiddenLayer(Configuration.numberOfColumns * Configuration.numberOfRows, 1000)
+    val outputLayer = getOutputLayer(1000, Configuration.numberOfOutputClasses)
 
     // Network configuration
     new NeuralNetConfiguration.Builder()
-      .seed(randomSeed)
+      .seed(Configuration.randomSeed)
       .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
       .iterations(1)
       .updater(Updater.ADAM)
-      .regularization(true).l2(regularizationRate)
+      .regularization(true)
+      .l2(Configuration.regularizationRate)
       .list(firstLayer, outputLayer)
       .pretrain(false)
       .backprop(true)
